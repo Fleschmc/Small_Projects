@@ -22,6 +22,6 @@ This repository is essentially a collection of little projects/scripts that I ha
 
 ## Technologies
  - Python
-   - Pandas, Selenium, Requests, BeautifulSoup
+   - Pandas, Numpy, Selenium, Requests, BeautifulSoup, Itertools, Time
  - R/Rstudio
    - Ggplot2, Dplyr, Rmd
