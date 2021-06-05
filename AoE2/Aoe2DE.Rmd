@@ -1,0 +1,58 @@
+---
+title: "Aoe2_Units"
+author: "Michael Flesch"
+date: "2/4/2021"
+output: 
+  html_document:
+    theme: darkly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(stringsAsFactors = FALSE)
+units <- read.csv('')
+library(ggplot2)
+library(dplyr)
+```
+
+```{r Cleaning, include = FALSE}
+
+units$Attack_Speed <- as.numeric(units$Attack_Speed)
+
+units$Accuracy <- sapply(units$Accuracy, function(x) {gsub('%', '', x)})
+units$Accuracy <- as.numeric(units$Accuracy) / 100
+
+units$Damage[units$Damage == '-'] <- 0
+units$Damage <- as.numeric(units$Damage)
+
+units$Build_Time <- as.numeric(units$Build_Time)
+
+units[units == unique(units$Type2)[1]] <- '-'
+units[is.na(units$Food) | is.na(units$Wood) | is.na(units$Gold) | is.na(units$Attack_Speed),
+      c('Food', 'Wood', 'Gold', 'Attack_Speed')] <- 0
+units[units == ''] <- '-'
+
+units$Type2[units$Type2 == unique(units$Type2)[3]] <- 'Suicide'
+
+units$Effective_dmg <- units$Damage * units$Attack_Speed * units$Accuracy
+
+units$Age_Cost <- ifelse(units$Age == 'Dark', 0.9, ifelse(units$Age == 'Feudal', 1, ifelse(units$Age == 'Castle', 1.25, ifelse(units$Age == 'Imperial', 1.5, 0))))
+
+units$Cost <- (units$Food + units$Wood + units$Gold) * units$Age_Cost
+
+lapply(units, function(x) {any(is.na(x))})
+
+lapply(units, class)
+```
+
+```{r}
+infantry <- units[units$Type == 'Infantry', 
+                  c('Name', 'Food', 'Wood', 'Gold', 'Cost', 'Attack_Speed', 'Damage', 'Melee_Armor',
+                    'Pierce_Armor', 'Effective_dmg')]
+cavalry <- units[units$Type == 'Cavalry', 
+                  c('Name', 'Food', 'Wood', 'Gold', 'Cost', 'Attack_Speed', 'Damage', 'Melee_Armor',
+                    'Pierce_Armor', 'Effective_dmg')]
+archers <- units[units$Type == 'Archer', 
+                  c('Name', 'Food', 'Wood', 'Gold', 'Cost', 'Attack_Speed','Accuracy', 'Damage',
+                    'Melee_Armor', 'Pierce_Armor', 'Effective_dmg')]
+```
