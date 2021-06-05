@@ -9,3 +9,4 @@ This repository is essentially a collection of little projects/scripts that I ha
 
 ## Projects
 - [Cloning](/Cloning/)
+- [Raiding](/Raiding/)
