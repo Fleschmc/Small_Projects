@@ -99,16 +99,16 @@ class Cloning():
                         gclist.append(list(zip(aclist['product'], aclist['clones'], aclist['score'])))
                         clist = clist + aclist['product'].tolist()
                 
-                if gclist:
-                    cdict = {}
-                    for c in clist:
-                        cdict[c] = 0
-                        for m in aclist['clones']:
-                            if c in m:
-                                cdict[c] += 1
-                        if cdict[c] < 0.05 * len(aclist): # removing clones that aren't in at least 5% of the new clones
-                            clist.remove(c)
-                            removed.append(c)
+                    if gclist:
+                        cdict = {}
+                        for c in clist:
+                            cdict[c] = 0
+                            for m in aclist['clones']:
+                                if c in m:
+                                    cdict[c] += 1
+                            if cdict[c] < 0.05 * len(aclist): # removing clones that aren't in at least 5% of the new clones
+                                clist.remove(c)
+                                removed.append(c)
                 else:
                     return df[:4], gclist # implement numr and replace 4 with numr
 
@@ -143,11 +143,12 @@ if __name__ == '__main__':
     parser.add_argument(
     '-d', '--depth',
     dest = 'depth',
+    type = int,
     help = 'This is the number of new clones to be added with each generation. Only supply a value if using --generate. Default = 5. Syntax: -d 5 or --depth 5'
     )
 
     args = vars(parser.parse_args())
 
     cloner = Cloning(**args)
-    
+
     print(cloner.generate())
