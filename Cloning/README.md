@@ -18,7 +18,7 @@
     Optional:  
     -h, --h: Shows help message  
     -g, --generate: Indicates that the function should act generatively. Crossbreed, add best clones, repeat until no new good clones.  
-    -d, --depth: This is the number of new clones to be added with each generation. Only supply a value if using --generate. Default = 5
+    -d, --depth: The number of new clones to be added with each generation. Only supply a value if using --generate. Default = 5
     
   An example would be Cloning.py hhhhhh yyyyyy gggggg 4 -g -d 7  
   The parser will intuit when you are switching from clist to ncross_breed  
