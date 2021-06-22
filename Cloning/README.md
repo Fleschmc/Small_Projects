@@ -2,7 +2,7 @@
 
 ## Table of Contents
  - [Description](#Description)
- - [Usage](##Cloning.py usage)
+ - [Usage](##`Cloning.py usage`)
 ## Description  
   The video game Rust has a farming system. Within is a script that will accept a list of clones (each having six genes) and find the optimal cross breed combination.
   An additional feature allows the script to automatically include the best clones produced by crossbreeding and then rerun the algorithm until no better clones are produced
@@ -17,8 +17,7 @@
     Optional:  
     -h, --h: Shows help message  
     -g, --generate: Indicates that the function should act generatively. Crossbreed, add best clones, repeat until no new good clones.  
-    -d, --depth: This is the number of new clones to be added with each generation. Only supply a value if using --generate.  
-     Default = 5. Syntax: -d 5 or --depth 5  
+    -d, --depth: This is the number of new clones to be added with each generation. Only supply a value if using --generate. Default = 5
     
   An example would be Cloning.py hhhhhh yyyyyy gggggg 4 -g -d 7  
   The parser will intuit when you are switching from clist to ncross_breed  
