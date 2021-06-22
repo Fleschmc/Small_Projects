@@ -74,6 +74,12 @@ class Cloning():
 
     def generate(self, depth = 5):
         go, clist, aclist, gclist, removed = True, self.clist, [], [], []
+        
+        try:
+            depth = self.depth
+        except:
+            pass
+
         while go:
             combs = self.create_combs(clist, self.ncross_breed, gclist)
             for comb in combs:
