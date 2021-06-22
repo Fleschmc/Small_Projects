@@ -8,7 +8,7 @@
   An additional feature allows the script to automatically include the best clones produced by crossbreeding and then rerun the algorithm until no better clones are produced
  
  ## Cloning.py usage  
-  In commandline or bash type python Cloning.py clist ncross_breed optional: -g -d 5  
+  In commandline or bash type python Cloning.py (arguments)  
     - Must be in the directory where the script is located or provide path to script  
     
   Arguments:  
