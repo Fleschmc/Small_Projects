@@ -2,7 +2,7 @@
 
 ## Table of Contents
  - [Description](#Description)
- - [Usage](#Cloning.py usage)
+ - [Usage](#"Cloning.py usage")
 ## Description
   The video game Rust has a farming system. Within is a script that will accept a list of clones (each having six genes) and find the optimal cross breed combination.
   An additional feature allows the script to automatically include the best clones produced by crossbreeding and then rerun the algorithm until no better clones are produced
