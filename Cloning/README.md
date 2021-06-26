@@ -14,11 +14,12 @@
   Arguments:  
     Required:  
     clist: This is the list of clones you want to crossbreed. Type them with one space apart e.g. hhhhhh yyyyyy gggggg  
-    ncross_breed: This is the maximum number of clones you want to cross breed with. Bigger numbers will increase run time. Typically 4-6 works well.  
+    ncross_breed: This is the maximum number of clones you want to cross breed with. Bigger numbers will increase run time. Typically 4-6 works well  
     Optional:  
     -h, --h: Shows help message  
-    -g, --generate: Indicates that the function should act generatively. Crossbreed, add best clones, repeat until no new good clones.  
-    -d, --depth: The number of new clones to be added with each generation. Only supply a value if using --generate. Default = 5
+    -g, --generate: Indicates that the function should act generatively. Crossbreed, add best clones, repeat until no new good clones  
+    -d, --depth: The number of new clones to be added with each generation. Only supply a value if using --generate. Default = 5  
+    -t, --time: Returns the time it takes the script to run  
     
   An example would be Cloning.py hhhhhh yyyyyy gggggg 4 -g -d 7  
   The parser will intuit when you are switching from clist to ncross_breed  
