@@ -78,11 +78,8 @@ class Cloning():
         start = time.time()
         go, clist, aclist, gclist, removed = True, self.clist, [], [], []
 
-        try:
+        if self.depth:
             depth = self.depth
-        except:
-            pass
-
 
         while go:
             combs = self.create_combs(clist, self.ncross_breed, gclist)
@@ -128,7 +125,7 @@ class Cloning():
 
             else:
                 go = False
-        if self.time:
+        if self._time:
             end = time.time() - start
             return {'time' : end, 'df' : df[:4]} 
         else:
@@ -193,4 +190,3 @@ if __name__ == '__main__':
             print(_)
     except:
         pass
-
