@@ -1,18 +1,20 @@
 import pandas as pd
 import numpy as np
 import itertools
+import time
 from collections import Counter
 
 class Cloning():
-    genes = {'w' : 0.9,  'x' : 0.9,  'g' : 0.5, 'h' : 0.5, 'y' : 0.5} # How Rust weights genes when calculating dominance
-    zero =  {'w' : 0,    'x' : 0,    'g' : 0,   'h' : 0,   'y' : 0}   # Used for calculating dominance
+    genes = {'w' : 0.9,  'x' : 0.9,  'g' : 0.5, 'h' : 0.5, 'y' : 0.5}  # How Rust weights genes when calculating dominance
+    zero  = {'w' : 0,    'x' : 0,    'g' : 0,   'h' : 0,   'y' : 0}    # Used for calculating dominance
     score = {'w' : -0.5, 'x' : -0.25, 'g' : 1,   'h' : 0.5, 'y' : 1}   # My scoring dictionary
     
-    def __init__(self, clist, ncross_breed, gen, depth):
+    def __init__(self, clist, ncross_breed, gen, depth, _time):
         self.clist = clist
         self.ncross_breed = ncross_breed
         self.gen = gen
         self.depth = depth
+        self._time = _time
         self.master = []
 
     def create_combs(self, clist, ncross_breed, gclist):
@@ -40,7 +42,7 @@ class Cloning():
 
         put, problems, solutions = [max(_, key = _.get) for _ in inter], [], [] 
         for i, x in enumerate(inter):
-            duptest, ip = [value == max(x.values()) for value in list(x.values())], [] # duptest tests each gene column for a 50/50 shot
+            duptest, ip = [value == max(x.values()) for value in list(x.values())], [] # duptest tests each gene column for a 50/50 shot, ip: intermediate problem
             if sum(duptest) > 1:
                 for j, y in enumerate(duptest):
                     if y == True:
@@ -55,7 +57,7 @@ class Cloning():
                     del tput[y[0]]
                     tput.insert(y[0], y[1])
                     solutions.append(tput)
-            solutions, im = [tuple(_) for _ in solutions], [] # im: Intermediate Master
+            solutions, im = [tuple(_) for _ in solutions], [] # im: intermediate master
             for product in set(solutions):            
                 data_dict = {}
                 data_dict['product']    = ''.join(product)
@@ -73,12 +75,14 @@ class Cloning():
             return [data_dict] # must be a list to concatenate to master
 
     def generate(self, depth = 5):
+        start = time.time()
         go, clist, aclist, gclist, removed = True, self.clist, [], [], []
-        
+
         try:
             depth = self.depth
         except:
             pass
+
 
         while go:
             combs = self.create_combs(clist, self.ncross_breed, gclist)
@@ -116,11 +120,19 @@ class Cloning():
                                 clist.remove(c)
                                 removed.append(c)
                 else:
-                    return df[:4], gclist # implement numr and replace 4 with numr
+                    if self._time:
+                        end = time.time() - start
+                        return {'time' : end, 'df' : df[:4], 'gc' : gclist} # implement numr and replace 4 with numr
+                    else:
+                        return {'df' : df[:4], 'gc' : gclist} # implement numr and replace 4 with numr
 
             else:
                 go = False
-        return df[:4] 
+        if self.time:
+            end = time.time() - start
+            return {'time' : end, 'df' : df[:4]} 
+        else:
+            return {'df' : df[:4]}
             
 if __name__ == '__main__':
     import argparse
@@ -153,8 +165,32 @@ if __name__ == '__main__':
     help = 'This is the number of new clones to be added with each generation. Only supply a value if using --generate. Default = 5. Syntax: -d 5 or --depth 5'
     )
 
+    parser.add_argument(
+        '-t', '--time',
+        dest = '_time',
+        action = 'store_true',
+        help = 'Returns the time it takes the script to run.'
+    )
+
     args = vars(parser.parse_args())
 
     cloner = Cloning(**args)
 
-    print(cloner.generate())
+    cloner_instance = cloner.generate()
+
+    # Quite inelegant coding but output looks better
+    # Also need to think of a better way to format optional output (-t, -g flags)
+    try:
+        print(f"\nScipt took {int(cloner_instance['time'] // 60)} minutes and {round(cloner_instance['time'] % 60, 2)} seconds.")
+    except:
+        pass
+
+    print(f"\n{cloner_instance['df']}\n")
+
+    try:
+        clones = [item for sublist in cloner_instance['gc'] for item in sublist]
+        for _ in clones:
+            print(_)
+    except:
+        pass
+
