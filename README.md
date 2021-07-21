@@ -19,8 +19,7 @@ This repository is essentially a collection of little projects/scripts that I ha
  - [AoE2](/AoE2/)  
   Age of Empires 2 is an online multiplayer real time strategy game. Essentially you control a civilization, build units, grow your economy and fight either the computer or         another player. I thought it would be interesting to compile all the information about each unit from each civilization and see if there was anything to be learned.  
  - [Workout](/Workout/)  
-  A script for easily inputting workout data (exercise/weight/reps) into a csv. The script will update workout.csv or will create it if not found in working directory.  
-  Working towards creating an automated weekly report that will optionally run on Fridays. 
+  A script for easily inputting workout data (exercise/weight/reps) into a csv. The script will update workout.csv or will create it if not found in working directory. Working towards creating an automated weekly report that will optionally run on Fridays. 
 
 
 ## Technologies
