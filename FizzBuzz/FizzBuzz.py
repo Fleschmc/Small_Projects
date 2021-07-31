@@ -24,7 +24,6 @@ def FizzBuzz(length = 15):
 # Not bothering to check for equality of list length
 
 def FizzBuzz_list(length = 15, nums = [3, 5, 7, 9], words = ['Fizz', 'Buzz', 'Bizz', 'Fuzz']):
-    output = ''
     for num in range(1, length + 1):
         output = ''.join([words[index] for index in [nums.index(_) for _ in nums if num % _ == 0]])
         if output: 
@@ -35,7 +34,6 @@ def FizzBuzz_list(length = 15, nums = [3, 5, 7, 9], words = ['Fizz', 'Buzz', 'Bi
 # Third attempt just rewriting second attempt but with a dictionary instead of a list
 
 def FizzBuzz_dict(length = 15, num_words = {3 : 'Fizz', 5 : 'Buzz', 7 : 'Bizz', 9 : 'Fuzz'}):
-    output = ''
     for num in range(1, length + 1):
         output = ''.join([num_words[key] for key in num_words.keys() if num % key == 0])
         if output:
