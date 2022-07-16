@@ -27,6 +27,18 @@ def run_scraping():
     item_links = ['https://rustlabs.com' + soup.find('div', class_ = 'info-block group').find_all('a')[_]['href'] + '#tab=destroyed-by;filter=0,0,1,0,0,0;sort=4,0,2' for _ in range(len(soup.find('div', class_ = 'info-block group').find_all('a')))]
     
     time.sleep(3)
+
+    soup = BeautifulSoup(requests.get('https://rustlabs.com/group=traps').content, 'html.parser')
+
+    item_links = ['https://rustlabs.com' + soup.find('div', class_ = 'info-block group').find_all('a')[_]['href'] + '#tab=destroyed-by;filter=0,0,1,0,0,0;sort=4,0,2' for _ in range(len(soup.find('div', class_ = 'info-block group').find_all('a')))]
+    
+    time.sleep(3)
+
+    soup = BeautifulSoup(requests.get('https://rustlabs.com/group=electrical').content, 'html.parser')
+
+    item_links = ['https://rustlabs.com' + soup.find('div', class_ = 'info-block group').find_all('a')[_]['href'] + '#tab=destroyed-by;filter=0,0,1,0,0,0;sort=4,0,2' for _ in range(len(soup.find('div', class_ = 'info-block group').find_all('a')))]
+    
+    time.sleep(3)
     """
     Data Scraping
     """
