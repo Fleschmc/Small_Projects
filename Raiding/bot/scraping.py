@@ -30,15 +30,16 @@ def run_scraping():
 
     soup = BeautifulSoup(requests.get('https://rustlabs.com/group=traps').content, 'html.parser')
 
-    item_links = ['https://rustlabs.com' + soup.find('div', class_ = 'info-block group').find_all('a')[_]['href'] + '#tab=destroyed-by;filter=0,0,1,0,0,0;sort=4,0,2' for _ in range(len(soup.find('div', class_ = 'info-block group').find_all('a')))]
+    trap_links = ['https://rustlabs.com' + soup.find('div', class_ = 'info-block group').find_all('a')[_]['href'] + '#tab=destroyed-by;filter=0,0,1,0,0,0;sort=4,0,2' for _ in range(len(soup.find('div', class_ = 'info-block group').find_all('a')))]
     
     time.sleep(3)
 
     soup = BeautifulSoup(requests.get('https://rustlabs.com/group=electrical').content, 'html.parser')
 
-    item_links = ['https://rustlabs.com' + soup.find('div', class_ = 'info-block group').find_all('a')[_]['href'] + '#tab=destroyed-by;filter=0,0,1,0,0,0;sort=4,0,2' for _ in range(len(soup.find('div', class_ = 'info-block group').find_all('a')))]
+    electrical_links = ['https://rustlabs.com' + soup.find('div', class_ = 'info-block group').find_all('a')[_]['href'] + '#tab=destroyed-by;filter=0,0,1,0,0,0;sort=4,0,2' for _ in range(len(soup.find('div', class_ = 'info-block group').find_all('a')))]
     
     time.sleep(3)
+
     """
     Data Scraping
     """
@@ -46,7 +47,8 @@ def run_scraping():
     session = requests.Session()
 
     master = []
-    for link_group in [build_links, construction_links, item_links]:
+    for i, link_group in enumerate([build_links, construction_links, item_links, trap_links, electrical_links]):
+        print(f"Starting {i}")
 
         for link in link_group:
             soup = BeautifulSoup(session.get(link, timeout = (12, 27)).content, 'html.parser')
