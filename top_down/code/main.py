@@ -1,4 +1,5 @@
 import pygame, sys
+import time
 from settings import *
 from level import *
 
@@ -14,7 +15,12 @@ class Game:
         self.level = Level()
 
     def run(self):
+        previous_time = time.time()
         while True:
+            # delta time -- frame independence
+            dt = time.time() - previous_time
+            previous_time = time.time()
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -22,7 +28,7 @@ class Game:
             
 
             self.screen.fill('black')
-            self.level.run()
+            self.level.run(dt)
             pygame.display.update()
             self.clock.tick(FPS)
 

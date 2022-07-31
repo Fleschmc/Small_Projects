@@ -5,12 +5,14 @@ from settings import *
 
 class Player(Entity):
     def __init__(self, pos, groups, obstacle_sprites, slow_sprites, create_attack, destroy_attack, cast_spell):
-        super().__init__(groups)
-
         # setup 
+        self.frame_index = 0
         self.image = pygame.image.load('../graphics/test/player.png').convert_alpha()
         self.rect = self.image.get_rect(topleft = pos)
         self.hitbox = self.rect.inflate(0, -26)
+        self.old_hitbox = self.hitbox.copy()
+
+        super().__init__(groups, self.hitbox)
 
         # graphics
         self.import_player_assets()
@@ -30,7 +32,7 @@ class Player(Entity):
         self.mouse_pos_directions = get_mouse_pos_directions(WIDTH, HEIGHT)
         self.can_switch_weapon = True
         self.weapon_switch_time = None
-        self.switch_duration_cooldown = 1000
+        self.switch_duration_cooldown = 250
 
         # magic
         self.cast_spell = cast_spell
@@ -41,7 +43,7 @@ class Player(Entity):
 
 
         # stats
-        self.stats = {'health' : 100, 'mana' : 100, 'attack' : 10, 'magic' : 4, 'speed' : 6}
+        self.stats = {'health' : 100, 'mana' : 100, 'attack' : 10, 'magic' : 4, 'speed' : 200}
         self.health = self.stats['health']
         self.mana = self.stats['mana']
         self.speed = self.stats['speed']
@@ -50,6 +52,7 @@ class Player(Entity):
         # sprites
         self.obstacle_sprites = obstacle_sprites
         self.slow_sprites = slow_sprites
+        self.sprite_type = 'player'
 
     def import_player_assets(self):
         character_path = '../graphics/player/'
@@ -147,10 +150,10 @@ class Player(Entity):
             if current_time - self.spell_switch_time >= self.switch_duration_cooldown:
                 self.can_switch_spell = True
         
-    def animate(self):
+    def animate(self, dt):
         animation = self.animations[self.status]
         # loop over frame index
-        self.frame_index += self.animation_speed
+        self.frame_index += self.animation_speed * dt
         if self.frame_index >= len(animation):
             self.frame_index = 0
 
@@ -158,14 +161,12 @@ class Player(Entity):
         self.image = animation[int(self.frame_index)]
         self.rect = self.image.get_rect(center = self.hitbox.center)
         
-
-
-    def update(self):
+    def update(self, dt):
+        self.old_hitbox = self.hitbox.copy()
         self.input()
         self.destroy_attack()
         self.create_attack()
         self.cooldowns()
         self.get_status()
-        self.animate()
-        self.move(self.speed)
-
+        self.animate(dt)
+        self.move(self.speed, dt)

@@ -65,8 +65,11 @@ class Level:
                         elif style == 'entities':
                             if col == '394':
                                 self.player = Player((x, y), [self.visible_sprites], self.obstacle_sprites, self.slow_sprites, self.create_attack, self.destroy_attack, self.cast_spell)
-                            else:
-                                Enemy('raccoon', (x, y), [self.visible_sprites, self.obstacle_sprites], self.obstacle_sprites, self.slow_sprites)
+                            elif col == '390': monster_name = 'bamboo'
+                            elif col == '391': monster_name = 'spirit'
+                            elif col == '392': monster_name ='raccoon'
+                            else: monster_name = 'squid'
+                            self.enemy = Enemy(monster_name, (x, y), [self.visible_sprites], self.obstacle_sprites, self.slow_sprites)
 
     def create_attack(self):
         if self.player.attacking:
@@ -80,14 +83,14 @@ class Level:
             self.current_attack.kill()
         self.current_attack = None
 
-    def run(self):
+    def run(self, dt):
         # update and draw the game
         self.visible_sprites.custom_draw(self.player)
-        self.visible_sprites.update()
+        self.visible_sprites.update(dt)
         self.visible_sprites.enemy_update(self.player)
         self.ui.display(self.player)
 
-        debug((self.player.speed, self.player.direction, self.player.status, self.player.mouse_pos))
+        debug((self.player.speed, self.player.status, self.player.mouse_pos))
 
 class YSortCameraGroup(pygame.sprite.Group):
     def __init__(self):
